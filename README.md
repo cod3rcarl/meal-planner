@@ -1,4 +1,7 @@
-This is a concept meal planning app that is using API from spoonacular.com to get a daily meal plan based on calory input.
+#Meal-Planning-App
 
-Source code used in my Youtube tutorial found here: https://youtu.be/N5or5jBstg8
-# meal-planner
+This is a meal planning app that uses the API from spoonacular.com
+
+To use, create a .env file and crete an api key from [here](https://spoonacular.com/food-api/console#Dashboard)
+
+![meal-plan2](/public/meal-plan2 "Meal Planner Results")
