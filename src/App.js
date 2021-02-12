@@ -14,7 +14,7 @@ function App() {
   const [myClass, setMyClass] = useState("container");
 
   function getMealData() {
-    const result = fetch(
+    fetch(
       `https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}&timeFrame=day&targetCalories=${calories}&exclude=cheese`
     )
       .then((response) => response.json())
@@ -24,7 +24,7 @@ function App() {
       .catch(() => {
         console.log("error");
       });
-    console.log(result);
+
     setMyClass("containerAfter");
   }
 
