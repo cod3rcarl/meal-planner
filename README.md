@@ -1,4 +1,4 @@
-#Meal-Planning-App
+### Meal-Planning-App
 
 This is a meal planning app that uses the API from spoonacular.com
 

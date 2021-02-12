@@ -6,7 +6,7 @@ export default function MealList({ mealData }) {
 
   return (
     <main>
-      <section className="nutrients">
+      <section className="nutrients" data-aos="fade-left">
         <h1>Meal List</h1>
 
         <h4>

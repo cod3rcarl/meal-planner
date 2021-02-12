@@ -17,7 +17,7 @@ export default function Meal({ meal }) {
   }, [meal.id, apiKey]);
 
   return (
-    <article>
+    <article data-aos="flip-right">
       <h1>{meal.title}</h1>
       <img src={imageUrl} alt="recipe" />
 

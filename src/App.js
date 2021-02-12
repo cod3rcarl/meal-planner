@@ -3,7 +3,7 @@ import MealList from "./MealList";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 AOS.init({
-  delay: 200,
+  delay: 500,
   duration: 1200,
   once: false,
 });
@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div className={myClass}>
-      <div className="App" data-aos="fade-up">
+      <div className="App" data-aos="zoom-in">
         <h1>My Meal Plan</h1>
         <section className="controls">
           <input
