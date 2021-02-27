@@ -61,6 +61,14 @@ h1 {
   align-items: center;
   flex-direction: column;
 }
+.btn {
+  display: flex;
+  flex-direction: column;
+}
+
+.btnAfter {
+  display: none;
+}
 
 input {
   text-align: center;

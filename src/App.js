@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useHistory, Link } from "react-router-dom";
+
 import MealList from "./MealList";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
@@ -9,14 +11,14 @@ AOS.init({
 });
 const apiKey = process.env.REACT_APP_API_KEY;
 function App() {
+  const history = useHistory();
   const [mealData, setMealData] = useState(null);
   const [calories, setCalories] = useState(2000);
   const [myClass, setMyClass] = useState("container");
+  const [btn, setBtn] = useState("btn");
 
   function getMealData() {
-    fetch(
-      `https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}&timeFrame=day&targetCalories=${calories}&exclude=cheese`
-    )
+    fetch(`https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}&timeFrame=day&targetCalories=${calories}&exclude=cheese`)
       .then((response) => response.json())
       .then((data) => {
         setMealData(data);
@@ -26,6 +28,7 @@ function App() {
       });
 
     setMyClass("containerAfter");
+    setBtn("btnAfter");
   }
 
   function handleChange(e) {
@@ -37,12 +40,12 @@ function App() {
       <div className="App" data-aos="zoom-in">
         <h1>My Meal Plan</h1>
         <section className="controls">
-          <input
-            type="number"
-            placeholder="Calories (e.g. 2000)"
-            onChange={handleChange}
-          />
+          <input type="number" placeholder="Calories (e.g. 2000)" onChange={handleChange} />
           <button onClick={getMealData}>Get Daily Meal Plan</button>
+          <section className={btn}>or</section>
+          <Link className={btn} to="/login">
+            <button>Login to view your saved recipes</button>
+          </Link>
         </section>
         {mealData && <MealList mealData={mealData} />}
       </div>
