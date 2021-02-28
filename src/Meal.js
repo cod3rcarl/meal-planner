@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, Route } from "react-router-dom";
 import MyMeals from "./MyMeals";
-import { setLocalStorage } from "./helpers/auth";
+import { toast, ToastContainer } from "react-toastify";
+import { setLocalStorage, isAuth } from "./helpers/auth";
+import axios from "axios";
 
-export default function Meal({ meal }) {
+export default function Meal({ meal, ToastContainer }) {
   const history = useHistory();
   const [imageUrl, setImageUrl] = useState("");
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -19,10 +21,21 @@ export default function Meal({ meal }) {
   }, [meal.id, apiKey]);
 
   const saveRecipe = (recipe, image) => {
-    console.log(recipe);
+    const { title, readyInMinutes, servings, sourceUrl, id } = recipe;
+    const user = isAuth();
+
+    axios
+      .post(`http://localhost:5000/api/v1/users/recipes`, { user, title, readyInMinutes, servings, sourceUrl, id, image })
+      .then((res) => {
+        toast.success(`${res.data.recipe.title}, successfully added!`, { autoClose: 3000 });
+      })
+      .catch((err) => toast.error(`You have already added this recipe`));
+  };
+
+  const loginAndSave = (recipe, image) => {
     setLocalStorage("recipe", recipe);
     setLocalStorage("image", image);
-    history.push("/mymeals");
+    history.push("/register");
   };
 
   return (
@@ -36,7 +49,8 @@ export default function Meal({ meal }) {
       <a href={meal.sourceUrl} target="_blank" rel="noreferrer">
         Go to Recipe
       </a>
-      <button onClick={() => saveRecipe(meal, imageUrl)}>Save Recipe</button>
+      {isAuth() && <button onClick={() => saveRecipe(meal, imageUrl)}>Save Recipe</button>}
+      {!isAuth() && <button onClick={() => loginAndSave(meal, imageUrl)}>Sign up to save this recipe</button>}
     </article>
   );
 }

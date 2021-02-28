@@ -48,6 +48,8 @@ export const authenticate = (response) => {
 export const signout = () => {
   removeCookie("token");
   removeLocalStorage("user");
+  removeLocalStorage("recipe");
+  removeLocalStorage("image");
 };
 
 export const isAuth = () => {

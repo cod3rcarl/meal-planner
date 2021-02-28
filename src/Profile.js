@@ -99,23 +99,34 @@ const Profile = () => {
     signout();
     toast.success("Signing out please wait!");
     setTimeout(() => {
-      history.push("/login");
+      history.push("/");
     }, 5000);
   };
 
   return (
-    <div className="profile">
+    <div className="profileContainer">
       <ToastContainer />
       {isAuth() && (
-        <div>
+        <div className="App">
           Welcome back {profile.name}
           <p>{profile.email}</p>
           <h2>Role: {profile.role}</h2>
-          <div>
-            <button onClick={() => setEmailModalOpen(true)}>Update Email</button>
-            <button onClick={() => setPasswordModalOpen(true)}>Update Password</button>
-
-            <button onClick={handleSignout}>Sign Out</button>
+          <div className="button-group">
+            <button className="meal-button" onClick={() => setEmailModalOpen(true)}>
+              Update Email
+            </button>
+            <button className="meal-button" onClick={() => setPasswordModalOpen(true)}>
+              Update Password
+            </button>
+            <button className="meal-button" onClick={() => history.push("/")}>
+              Recipe Search
+            </button>
+            <button className="meal-button" onClick={() => history.push("/mymeals")}>
+              My Recipes
+            </button>
+            <button className="meal-button" onClick={handleSignout}>
+              Sign Out
+            </button>
           </div>
           {/*EMAIL MODAL */}
           <Modal isOpen={emailModalIsOpen} onRequestClose={() => setEmailModalOpen(false)} contentLabel="Example Modal">

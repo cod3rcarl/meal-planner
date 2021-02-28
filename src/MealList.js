@@ -1,8 +1,11 @@
 import React from "react";
 import Meal from "./Meal";
-
+import { isAuth } from "./helpers/auth";
+import { useHistory } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 export default function MealList({ mealData }) {
   const nutrients = mealData.nutrients;
+  const history = useHistory();
 
   return (
     <main>
@@ -20,10 +23,13 @@ export default function MealList({ mealData }) {
       </section>
 
       <section className="meals">
+        <ToastContainer />
         {mealData.meals.map((meal) => {
           return <Meal key={meal.id} meal={meal} />;
         })}
+        <ToastContainer />
       </section>
+      {isAuth() && <button onClick={() => history.push("/mymeals")}>View My Recipes</button>}
     </main>
   );
 }

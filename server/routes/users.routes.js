@@ -10,7 +10,7 @@ const router = express.Router();
 //router.use(authorize("admin"));
 
 router.get("/", advancedResults(User), getUsers);
-router.get("/recipes", advancedResults(Recipe), getRecipes);
+router.get("/recipes/:id", advancedResults(Recipe), getRecipes);
 router.post("/recipes", createRecipe);
 
 router

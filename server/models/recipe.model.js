@@ -26,8 +26,7 @@ const RecipeSchema = new mongoose.Schema({
     default: Date.now,
   },
   user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
+    type: String,
     required: true,
   },
 });

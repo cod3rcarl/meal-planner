@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-
+import { isAuth } from "./helpers/auth";
 import MealList from "./MealList";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
@@ -43,9 +43,16 @@ function App() {
           <input type="number" placeholder="Calories (e.g. 2000)" onChange={handleChange} />
           <button onClick={getMealData}>Get Daily Meal Plan</button>
           <section className={btn}>or</section>
-          <Link className={btn} to="/login">
-            <button>Login to view your saved recipes</button>
-          </Link>
+          {isAuth() ? (
+            <Link className={btn} to="/mymeals">
+              {" "}
+              <button>View your saved recipes</button>
+            </Link>
+          ) : (
+            <Link className={btn} to="/login">
+              <button>Login to view your saved recipes</button>
+            </Link>
+          )}
         </section>
         {mealData && <MealList mealData={mealData} />}
       </div>

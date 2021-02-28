@@ -1,13 +1,19 @@
 const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const Recipe = require("../models/recipe.model");
+const User = require("../models/auth.model");
 
 // @description Get all users
 // @route GET /api/v1/users
 // @access Private/Admin
 
 exports.getRecipes = asyncHandler(async (req, res, next) => {
-  res.status(200).json(res.advancedResults);
+  const user = req.params.id;
+  console.log(user);
+  const query = await Recipe.find();
+  const recipes = query.filter((recipe) => recipe.user === user);
+  console.log(recipes);
+  res.status(200).json({ recipes });
 });
 
 // @description Get single
@@ -44,14 +50,30 @@ exports.deleteRecipe = asyncHandler(async (req, res, next) => {
 });
 
 exports.createRecipe = asyncHandler(async (req, res, next) => {
-  //Add User to req.body
-  req.body.recipe = req.recipe.id;
-  //Check for published bootcamp
-  const publishedRecipe = await Recipe.findOne({ recipe: req.recipe.id });
-  //If the user is not an admin, they can only add one bootcamp
-  if (publishedRecipe) {
-    return next(new ErrorResponse(`The recipe with ID ${req.recipe.id} has already added`, 400));
+  const { title, id, readyInMinutes, servings, image, sourceUrl } = req.body;
+  const userId = req.body.user._id;
+  const recipeId = id;
+
+  const user = await User.findById(userId);
+  const duplicateRecipe = await Recipe.findOne({ recipeId });
+  if (duplicateRecipe) {
+    return res.status(400).json({ success: false, message: `You have already added this recipe` });
   }
-  const recipe = await Recipe.create(req.body);
-  res.status(201).json({ success: true, data: recipe });
+
+  if (!user) {
+    return res.status(400).json({ success: false, message: `User does not exist` });
+  }
+
+  const recipe = await Recipe.create({
+    title,
+    recipeId: id,
+    prepTime: readyInMinutes,
+    user: userId,
+    servings,
+    imageUrl: image,
+    sourceUrl,
+    createdAt: Date.now(),
+  });
+
+  return res.status(200).json({ success: true, recipe: recipe });
 });

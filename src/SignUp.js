@@ -14,8 +14,37 @@ AOS.init({
 
 function SignUp() {
   const history = useHistory();
-  const [myClass, setMyClass] = useState("container");
-
+  const [signUpFormData, setSignUpFormData] = useState({ name: "", email: "", password1: "", password2: "", textChange: "Sign Up" });
+  const { name, email, password1, password2, textChange } = signUpFormData;
+  const handleSignUpChange = (text) => (e) => {
+    setSignUpFormData({ ...signUpFormData, [text]: e.target.value });
+  };
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    if (name && email && password1) {
+      if (password1 === password2) {
+        setSignUpFormData({ ...signUpFormData, textChange: "Submitting" });
+        axios
+          .post(`${process.env.REACT_APP_API_URL}/register`, { name, email, password: password1 })
+          .then((res) => {
+            setSignUpFormData({ ...signUpFormData, name: "", email: "", password1: "", password2: "", textChange: "Submitted" });
+            toast.success(res.data.message, { autoClose: 3000 });
+            setTimeout(() => {
+              authenticate(res);
+              localStorage.getItem("recipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
+            }, 3000);
+          })
+          .catch((err) => {
+            setSignUpFormData({ ...signUpFormData, name: "", email: "", password1: "", password2: "", textChange: "Sign Up" });
+            toast.error(err.response.data.errors);
+          });
+      } else {
+        toast.error("Passwords do not match");
+      }
+    } else {
+      toast.error("Please fill all fields");
+    }
+  };
   /*------------------------------GOOGLE LOGIN--------------------------------*/
 
   const responseGoogle = (response) => {
@@ -31,8 +60,7 @@ function SignUp() {
         authenticate(response);
         toast.success(`Hey ${response.data.user.name}, Welcome back!`, { autoClose: 3000 });
         setTimeout(() => {
-          console.log("Signed In");
-          // history.push("/profile");
+          localStorage.getItem("recipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
         }, 3000);
       })
       .catch((error) => {
@@ -40,60 +68,34 @@ function SignUp() {
         console.log(error);
       });
   };
-
-  /*------------------------------EMAIL LOGIN--------------------------------*/
-
-  const [loginFormData, setLoginFormData] = useState({ loginEmail: "", loginPassword1: "", loginTextChange: "Sign In" });
-  const { loginEmail, loginPassword1, loginTextChange } = loginFormData;
-  const handleLoginChange = (text) => (e) => {
-    setLoginFormData({ ...loginFormData, [text]: e.target.value });
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log("submit");
-    // if (loginEmail && loginPassword1) {
-    //   setLoginFormData({ ...loginFormData, textChange: "Submitting" });
-    //   axios
-    //     .post(`${process.env.REACT_APP_API_URL}/login`, {
-    //       email: loginEmail,
-    //       password: loginPassword1,
-    //     })
-    //     .then((response) => {
-    //       toast.success(`Hey ${response.data.user.name}, Welcome back!`, { autoClose: 3000 });
-    //       setTimeout(() => {
-    //         authenticate(response);
-    //         setLoginFormData({ ...loginFormData, loginEmail: "", loginPassword1: "", textChange: "Submitted" });
-    //         console.log(isAuth());
-    //         history.push("/profile");
-    //       }, 3000);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       setLoginFormData({ ...loginFormData, email: "", password1: "", textChange: "Sign In" });
-    //       toast.error("Error logging in", { autoClose: 3000 });
-    //     });
-    // } else {
-    //   toast.error("Please fill in all fields", { autoClose: 3000 });
-    // }
-  };
-
   return (
-    <div className={myClass}>
+    <div className="container">
       <ToastContainer />
       <div className="App" data-aos="zoom-in">
         <h1>My Meal Plan</h1>
-        <form onSubmit={handleLogin} className="controls">
+        {/* REGISTER */}
+
+        <form className="sign-up-form" onSubmit={handleSignUp}>
+          <h2 className="title">Sign Up</h2>
+
           <div className="input-field">
             <i className="fas fa-user"></i>
-            <input type="email" placeholder="Email" autoComplete="off" onChange={handleLoginChange("loginEmail")} value={loginEmail} />
+            <input type="text" placeholder="Name" autoComplete="off" onChange={handleSignUpChange("name")} value={name} />
+          </div>
+          <div className="input-field">
+            <i className="fas fa-envelope"></i>
+            <input type="email" placeholder="Email" autoComplete="off" onChange={handleSignUpChange("email")} value={email} />
           </div>
           <div className="input-field">
             <i className="fas fa-lock"></i>
-            <input type="password" placeholder="Password" autoComplete="off" onChange={handleLoginChange("loginPassword1")} value={loginPassword1} />
+            <input type="password" placeholder="Password" autoComplete="off" onChange={handleSignUpChange("password1")} value={password1} />
           </div>
-          <input type="submit" className="btn solid" value={loginTextChange} />
-          <p className="social-text">Or Sign In with Google</p>
+          <div className="input-field">
+            <i className="fas fa-lock"></i>
+            <input type="password" placeholder="Confirm Password" autoComplete="off" onChange={handleSignUpChange("password2")} value={password2} />
+          </div>
+          <input type="submit" className="btn" value={textChange} />
+          <p className="social-text">Or Sign in with Google</p>
           <div className="social-media">
             {" "}
             <GoogleLogin
@@ -104,14 +106,12 @@ function SignUp() {
               render={(renderProps) => (
                 <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="social-icon">
                   <i className="fab fa-google " />
+
+                  {/* <span className="ml-4">Sign In with Google</span> */}
                 </button>
               )}
             ></GoogleLogin>
           </div>
-          <br />
-          <Link to="/users/password/forget">
-            <p>Forgot Password?</p>
-          </Link>
         </form>
       </div>
     </div>

@@ -6,6 +6,7 @@ body {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: black;
 }
 
 :root {
@@ -27,6 +28,38 @@ body {
   justify-content: center;
   align-items: center;
 }
+.mealContainer {
+  background: url("background.jpeg");
+  margin: 1rem;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position-y: center;
+
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileContainer {
+  background: url("background.jpeg");
+
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  height: 100%;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myMeals {
+  display: flex;
+  flex-direction: column;
+}
 .containerAfter {
   background: url("background.jpeg");
 
@@ -40,7 +73,21 @@ body {
   justify-content: center;
   align-items: center;
 }
+.mealApp {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+  border: 1px solid var(--primary-color);
+  color: bisque;
+  padding: 3rem;
+  margin: 1rem;
+  font-family: var(--primary-font);
+  background-color: rgba(3, 3, 3, 0.603);
+}
 .App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 1px solid var(--primary-color);
   color: bisque;
   padding: 3rem;
@@ -49,6 +96,11 @@ body {
   background-color: rgba(3, 3, 3, 0.603);
 }
 
+.button-group {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
 section {
   margin: 2rem 0 1rem 0;
 }
@@ -68,6 +120,10 @@ h1 {
 
 .btnAfter {
   display: none;
+}
+
+.meal-button {
+  margin: 2px;
 }
 
 input {
@@ -150,6 +206,31 @@ a:hover {
   cursor: pointer;
 }
 
+@media only screen and (max-width: 996px) {
+  .mealApp {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--primary-color);
+    color: bisque;
+    padding: 3rem;
+    margin: 1rem;
+    font-family: var(--primary-font);
+    background-color: rgba(3, 3, 3, 0.603);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .mealApp {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--primary-color);
+    color: bisque;
+    padding: 3rem;
+    margin: 1rem;
+    font-family: var(--primary-font);
+    background-color: rgba(3, 3, 3, 0.603);
+  }
+}
 @media only screen and (max-width: 1024px) {
   .meals {
     flex-direction: column;

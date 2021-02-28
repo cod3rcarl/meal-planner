@@ -8,13 +8,12 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const config = require("./config/config");
 const app = express();
-const PORT = config.PORT;
+const PORT = config.PORT || 5000;
 
 connectDB();
 
 const authRouter = require("./routes/auth.routes");
 const userRouter = require("./routes/users.routes");
-const recipeRouter = require("./routes/recipe.routes");
 
 app.use(cors());
 app.use(morgan("dev"));
@@ -24,7 +23,7 @@ app.use(helmet());
 app.use(express.json());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/recipes", recipeRouter);
+
 app.use(errorHandler);
 
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`));

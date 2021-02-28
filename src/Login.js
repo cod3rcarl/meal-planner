@@ -29,10 +29,10 @@ function Login() {
       })
       .then((response) => {
         authenticate(response);
+        console.log(localStorage.getItem("recipe"));
         toast.success(`Hey ${response.data.user.name}, Welcome back!`, { autoClose: 3000 });
         setTimeout(() => {
-          console.log("Signed In");
-          // history.push("/profile");
+          localStorage.getItem("recipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
         }, 3000);
       })
       .catch((error) => {
@@ -51,31 +51,31 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("submit");
-    // if (loginEmail && loginPassword1) {
-    //   setLoginFormData({ ...loginFormData, textChange: "Submitting" });
-    //   axios
-    //     .post(`${process.env.REACT_APP_API_URL}/login`, {
-    //       email: loginEmail,
-    //       password: loginPassword1,
-    //     })
-    //     .then((response) => {
-    //       toast.success(`Hey ${response.data.user.name}, Welcome back!`, { autoClose: 3000 });
-    //       setTimeout(() => {
-    //         authenticate(response);
-    //         setLoginFormData({ ...loginFormData, loginEmail: "", loginPassword1: "", textChange: "Submitted" });
-    //         console.log(isAuth());
-    //         history.push("/profile");
-    //       }, 3000);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       setLoginFormData({ ...loginFormData, email: "", password1: "", textChange: "Sign In" });
-    //       toast.error("Error logging in", { autoClose: 3000 });
-    //     });
-    // } else {
-    //   toast.error("Please fill in all fields", { autoClose: 3000 });
-    // }
+
+    if (loginEmail && loginPassword1) {
+      setLoginFormData({ ...loginFormData, textChange: "Submitting" });
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/login`, {
+          email: loginEmail,
+          password: loginPassword1,
+        })
+        .then((response) => {
+          toast.success(`Hey ${response.data.user.name}, Welcome back!`, { autoClose: 3000 });
+          setTimeout(() => {
+            authenticate(response);
+            setLoginFormData({ ...loginFormData, loginEmail: "", loginPassword1: "", textChange: "Submitted" });
+
+            localStorage.getItem("recipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoginFormData({ ...loginFormData, email: "", password1: "", textChange: "Sign In" });
+          toast.error("Error logging in", { autoClose: 3000 });
+        });
+    } else {
+      toast.error("Please fill in all fields", { autoClose: 3000 });
+    }
   };
 
   return (
@@ -111,6 +111,9 @@ function Login() {
           <br />
           <Link to="/users/password/forget">
             <p>Forgot Password?</p>
+          </Link>
+          <Link to="/register">
+            <button>Register</button>
           </Link>
         </form>
       </div>
