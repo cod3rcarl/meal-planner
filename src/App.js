@@ -1,60 +1,96 @@
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { isAuth } from "./helpers/auth";
 import MealList from "./MealList";
+import RecipeList from "./RecipeList";
 import AOS from "aos";
-import "aos/dist/aos.css"; // You can also use <link> for styles
+import "aos/dist/aos.css";
 AOS.init({
   delay: 500,
   duration: 1200,
   once: false,
 });
-const apiKey = process.env.REACT_APP_API_KEY;
+const apiKey = process.env.REACT_APP_SPOONACULAR_API_KEY;
+const edamanAppId = process.env.REACT_APP_EDAMAM_APP_ID;
+const edamanApiKey = process.env.REACT_APP_EDAMAM_API_KEY;
+
 function App() {
-  const history = useHistory();
   const [mealData, setMealData] = useState(null);
+  const [recipe, setRecipe] = useState(null);
   const [calories, setCalories] = useState(2000);
+  const [search, setSearch] = useState("breakfast");
   const [myClass, setMyClass] = useState("container");
-  const [btn, setBtn] = useState("btn");
+  const [error, setError] = useState("");
+
+  const count = Math.floor(Math.random() * 90);
 
   function getMealData() {
     fetch(`https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}&timeFrame=day&targetCalories=${calories}&exclude=cheese`)
       .then((response) => response.json())
       .then((data) => {
+        window.scrollTo(0, 0);
+        setRecipe(null);
         setMealData(data);
+        setCalories(2000);
       })
       .catch(() => {
-        console.log("error");
+        setError("Something went wrong");
       });
 
     setMyClass("containerAfter");
-    setBtn("btnAfter");
   }
 
-  function handleChange(e) {
-    setCalories(e.target.value);
+  function getSingleIngredientRecipe() {
+    fetch(`https://api.edamam.com/search?q=${search}&app_id=${edamanAppId}&app_key=${edamanApiKey}&from=${count}&to=${count + 12}`)
+      .then((response) => response.json())
+      .then((data) => {
+        window.scrollTo(0, 0);
+        setMealData(null);
+        setRecipe(data.hits);
+        setSearch("Breakfast");
+      })
+      .catch(() => {
+        setError("Something went wrong");
+      });
+
+    setMyClass("containerAfter");
   }
 
   return (
     <div className={myClass}>
       <div className="App" data-aos="zoom-in">
-        <h1>My Meal Plan</h1>
+        {recipe && <RecipeList search={search} recipeData={recipe} />}
+        {mealData && <MealList mealData={mealData} />}
+        {error && error}
         <section className="controls">
-          <input type="number" placeholder="Calories (e.g. 2000)" onChange={handleChange} />
-          <button onClick={getMealData}>Get Daily Meal Plan</button>
-          <section className={btn}>or</section>
+          <h1>My Meal Plan</h1>
+          <div className="center">
+            <p>Search by calories</p>
+            <input type="Number" placeholder="Calories (e.g. 2000)" onChange={(e) => setCalories(e.target.value)} />
+            <p>Get three recipes totalling calorie amount</p>
+            <button onClick={getMealData}>Get Recipes by calories</button>
+          </div>
+
+          <section className="btn">or</section>
+          <div className="center">
+            <p>Search by ingredient / keyword</p>
+            <input type="text" placeholder="(e.g. chicken / breakfast)" onChange={(e) => setSearch(e.target.value)} />
+            <br />
+            <button onClick={getSingleIngredientRecipe}>Get Recipes</button>
+          </div>
+
+          <section className="btn">or</section>
           {isAuth() ? (
-            <Link className={btn} to="/mymeals">
+            <Link className="btn" to="/mymeals">
               {" "}
               <button>View your saved recipes</button>
             </Link>
           ) : (
-            <Link className={btn} to="/login">
+            <Link className="btn" to="/login">
               <button>Login to view your saved recipes</button>
             </Link>
           )}
         </section>
-        {mealData && <MealList mealData={mealData} />}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ const RecipeSchema = new mongoose.Schema({
     required: [true, "Please add a title"],
   },
   recipeId: {
-    type: Number,
+    type: String,
     required: true,
   },
   prepTime: {

@@ -9,7 +9,7 @@ Modal.setAppElement("#root");
 
 const Profile = () => {
   const history = useHistory();
-  const [profile, setProfile] = useState({ name: "test", role: "test", email: "test" });
+  const [profile, setProfile] = useState({});
   const [newName, setNewName] = useState("");
   const [newEmail1, setNewEmail1] = useState("");
   const [newEmail2, setNewEmail2] = useState("");
@@ -77,30 +77,14 @@ const Profile = () => {
   /*------------------------------LOAD PROFILE--------------------------------*/
 
   useEffect(() => {
-    if (isAuth()) {
-      setProfile(isAuth());
-      // const id = isAuth()._id;
-
-      // axios
-      //   .get(`${process.env.REACT_APP_USER_URL}/${id}`, { headers: id })
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     res.data && setProfile(res.data.user);
-      //   })
-      //   .catch((err) => {
-      //     toast.error(err);
-      //   });
-    }
+    isAuth() ? setProfile(isAuth()) : history.push("/login");
   }, []);
 
   /*------------------------------SIGN OUT--------------------------------*/
 
   const handleSignout = () => {
     signout();
-    toast.success("Signing out please wait!");
-    setTimeout(() => {
-      history.push("/");
-    }, 5000);
+    history.push("/");
   };
 
   return (

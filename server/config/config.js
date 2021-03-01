@@ -29,6 +29,12 @@ const config = {
   SMTP_PASSWORD: process.env.SMTP_PASSWORD,
 
   GOOGLE_CLIENT: process.env.GOOGLE_CLIENT,
+  GOOGLE_EMAIL: process.env.GOOGLE_EMAIL,
+  GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+  GOOGLE_REFRESH_TOKEN: process.env.GOOGLE_REFRESH_TOKEN,
+  GOOGLE_ACCESS_TOKEN: process.env.GOOGLE_ACCESS_TOKEN,
+  GOOGLE_EXPIRES: process.env.GOOGLE_EXPIRES,
+  GOOGLE_SCOPE: process.env.GOOGLE_SCOPE,
 };
 
 module.exports = config;

@@ -4,7 +4,6 @@ import { isAuth } from "./helpers/auth";
 import { useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 export default function MealList({ mealData }) {
-  const nutrients = mealData.nutrients;
   const history = useHistory();
 
   return (
@@ -16,10 +15,10 @@ export default function MealList({ mealData }) {
           Nutrition <em>(per total serving)</em>
         </h4>
 
-        <li>Calories: {nutrients.calories.toFixed(0)}</li>
-        <li>Carbohydrates: {nutrients.carbohydrates.toFixed(0)}</li>
-        <li>Fat: {nutrients.fat.toFixed(0)}</li>
-        <li>Protein: {nutrients.protein.toFixed(0)}</li>
+        <li>Calories: {mealData.nutrients.calories.toFixed(0)}</li>
+        <li>Carbohydrates: {mealData.nutrients.carbohydrates.toFixed(0)}</li>
+        <li>Fat: {mealData.nutrients.fat.toFixed(0)}</li>
+        <li>Protein: {mealData.nutrients.protein.toFixed(0)}</li>
       </section>
 
       <section className="meals">
@@ -27,7 +26,6 @@ export default function MealList({ mealData }) {
         {mealData.meals.map((meal) => {
           return <Meal key={meal.id} meal={meal} />;
         })}
-        <ToastContainer />
       </section>
       {isAuth() && <button onClick={() => history.push("/mymeals")}>View My Recipes</button>}
     </main>

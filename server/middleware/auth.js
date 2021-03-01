@@ -6,18 +6,30 @@ const config = require("../config/config");
 
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
-  console.log(req.headers);
-  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-    token = req.headers.authorization.split(" ")[1];
+  let id;
+
+  if (req.cookies) {
+    token = req.cookies.token;
   }
-  console.log(token);
-  if (!token) {
+  if (req.body.user) {
+    id = req.body.user._id;
+  }
+  if (req.params) {
+    id = req.params.id;
+  }
+
+  if (!token && !id) {
     return next(new ErrorResponse("Not authorized to access this route", 401));
   }
 
   try {
-    const decoded = jwt.verify(token, config.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
+    if (token) {
+      const decoded = jwt.verify(token, config.JWT_SECRET);
+      req.user = await User.findById(decoded.id);
+    }
+    if (id) {
+      req.user = await User.findById(id);
+    }
     next();
   } catch (err) {
     return next(new ErrorResponse("Not authorized to access this route", 401));

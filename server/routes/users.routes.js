@@ -6,23 +6,22 @@ const User = require("../models/auth.model");
 const Recipe = require("../models/recipe.model");
 const router = express.Router();
 
-//router.use(protect);
-//router.use(authorize("admin"));
+const { authorize, protect } = require("../middleware/auth");
 
-router.get("/", advancedResults(User), getUsers);
-router.get("/recipes/:id", advancedResults(Recipe), getRecipes);
-router.post("/recipes", createRecipe);
+router.get("/", protect, authorize("admin"), advancedResults(User), getUsers);
+router.get("/recipes/:id", protect, advancedResults(Recipe), getRecipes);
+router.post("/recipes", protect, createRecipe);
 
 router
   .route("/:id")
-  .get(getUser)
-  .put(updateUser)
-  .delete(deleteUser);
+  .get(protect, getUser)
+  .put(protect, updateUser)
+  .delete(protect, deleteUser);
 
 router
   .route("/recipe/:id")
-  .get(getRecipe)
-  .put(updateRecipe)
-  .delete(deleteRecipe);
+  .get(protect, getRecipe)
+  .put(protect, updateRecipe)
+  .delete(protect, deleteRecipe);
 
 module.exports = router;

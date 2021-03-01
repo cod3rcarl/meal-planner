@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { authenticate, isAuth } from "./helpers/auth";
+import { authenticate } from "./helpers/auth";
 import { Link, useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import AOS from "aos";
@@ -95,6 +95,10 @@ function SignUp() {
             <input type="password" placeholder="Confirm Password" autoComplete="off" onChange={handleSignUpChange("password2")} value={password2} />
           </div>
           <input type="submit" className="btn" value={textChange} />
+          <p>Already got an account?</p>
+          <Link to="/login">
+            <button>Login</button>
+          </Link>
           <p className="social-text">Or Sign in with Google</p>
           <div className="social-media">
             {" "}

@@ -3,7 +3,6 @@ const asyncHandler = require("../middleware/async");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const config = "../config/config.js";
-const fetch = require("node-fetch");
 
 const { OAuth2Client } = require("google-auth-library");
 
@@ -55,6 +54,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @access Private
 
 exports.getMe = asyncHandler(async (req, res, next) => {
+  console.log(req.user);
   const user = await User.findById(req.user.id);
   res.status(200).json({
     success: true,
@@ -138,9 +138,10 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
   try {
     await sendEmail({
-      email: user.email,
       subject: "Password reset token",
-      message,
+      text: message,
+      to: user.email,
+      from: config.GOOGLE_EMAIL,
     });
 
     res.status(200).json({ success: true, data: "Email sent" });

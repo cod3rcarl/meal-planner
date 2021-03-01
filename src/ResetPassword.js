@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-import { isAuth } from "./helpers/auth";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 
@@ -58,34 +56,6 @@ const ResetPassword = ({ match }) => {
             </div>
             <input type="submit" className="btn solid" value={textChange} />
           </form>
-        </div>
-      </div>
-
-      <div className="panels-container">
-        <div className="panel left-panel">
-          <div className="content">
-            <h3>New here ?</h3>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis, ex ratione. Aliquid!</p>
-            <Link to="/login">
-              {" "}
-              <button className="btn transparent" id="sign-in-btn">
-                Sign in
-              </button>
-            </Link>
-          </div>
-          <img src="https://img2.pngio.com/health-and-fitness-png-picture-624325-health-and-fitness-png-health-and-fitness-png-1023_772.png" alt="Health and fitness png" className="image" />
-        </div>
-        <div className="panel right-panel">
-          <div className="content" style={{ marginBottom: "65px" }}>
-            <h3>One of us ?</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum laboriosam ad deleniti.</p>
-            <Link to="/login">
-              {" "}
-              <button className="btn transparent" id="sign-in-btn">
-                Sign in
-              </button>
-            </Link>
-          </div>
         </div>
       </div>
     </div>

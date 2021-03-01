@@ -1,7 +1,4 @@
-const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
-const crypto = require("crypto");
-
 const User = require("../models/auth.model");
 
 // @description Get all users

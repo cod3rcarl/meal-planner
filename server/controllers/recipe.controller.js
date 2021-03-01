@@ -9,10 +9,10 @@ const User = require("../models/auth.model");
 
 exports.getRecipes = asyncHandler(async (req, res, next) => {
   const user = req.params.id;
-  console.log(user);
+
   const query = await Recipe.find();
   const recipes = query.filter((recipe) => recipe.user === user);
-  console.log(recipes);
+
   res.status(200).json({ recipes });
 });
 
@@ -53,7 +53,7 @@ exports.createRecipe = asyncHandler(async (req, res, next) => {
   const { title, id, readyInMinutes, servings, image, sourceUrl } = req.body;
   const userId = req.body.user._id;
   const recipeId = id;
-
+  console.log(req.body);
   const user = await User.findById(userId);
   const duplicateRecipe = await Recipe.findOne({ recipeId });
   if (duplicateRecipe) {

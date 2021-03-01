@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { authenticate, isAuth } from "./helpers/auth";
+import { authenticate } from "./helpers/auth";
 import { Link, useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import AOS from "aos";
@@ -14,7 +14,6 @@ AOS.init({
 
 function Login() {
   const history = useHistory();
-  const [myClass, setMyClass] = useState("container");
 
   /*------------------------------GOOGLE LOGIN--------------------------------*/
 
@@ -29,14 +28,14 @@ function Login() {
       })
       .then((response) => {
         authenticate(response);
-        console.log(localStorage.getItem("recipe"));
-        toast.success(`Hey ${response.data.user.name}, Welcome back!`, { autoClose: 3000 });
+
+        toast.success(`Hey ${response.data.user.name}, Welcome back!`, { autoClose: 2000 });
         setTimeout(() => {
           localStorage.getItem("recipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
-        toast.error("Google SignIn error! Please try again", { autoClose: 3000 });
+        toast.error("Google SignIn error! Please try again", { autoClose: 2000 });
         console.log(error);
       });
   };
@@ -79,7 +78,7 @@ function Login() {
   };
 
   return (
-    <div className={myClass}>
+    <div className="container">
       <ToastContainer />
       <div className="App" data-aos="zoom-in">
         <h1>My Meal Plan</h1>
@@ -116,6 +115,9 @@ function Login() {
             <button>Register</button>
           </Link>
         </form>
+        <Link to="/">
+          <button>Back to home page</button>
+        </Link>
       </div>
     </div>
   );

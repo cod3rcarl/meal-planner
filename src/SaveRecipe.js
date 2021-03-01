@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import { isAuth, setLocalStorage, signout, authenticate } from "./helpers/auth";
+import { isAuth } from "./helpers/auth";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import { useHistory, Route } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+
+const recipesUrl = process.env.REACT_APP_USER_URL;
 
 export const SaveRecipe = () => {
   const history = useHistory();
@@ -16,8 +18,8 @@ export const SaveRecipe = () => {
         const user = isAuth();
 
         axios
-          .post(`http://localhost:5000/api/v1/users/recipes`, { user, title, readyInMinutes, servings, sourceUrl, id, image })
-          .then((res) => toast.success(`${res.data.recipe.title}, successfully added!`, { autoClose: 3000 }))
+          .post(`${recipesUrl}/recipes`, { user, title, readyInMinutes, servings, sourceUrl, id, image })
+          .then((res) => toast.success(`${res.data.recipe.title}, successfully added!`, { autoClose: 2000 }))
           .catch((err) => toast.error(err.message));
       }
     };

@@ -1,28 +1,46 @@
 const nodemailer = require("nodemailer");
 const config = require("../config/config");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
-const sendEmail = async (options) => {
+const createTransporter = async () => {
+  console.log("here");
+  const oauth2Client = new OAuth2(config.GOOGLE_CLIENT, config.GOOGLE_SECRET, "https://developers.google.com/oauthplayground");
+
+  oauth2Client.setCredentials({
+    refresh_token: config.GOOGLE_REFRESH_TOKEN,
+  });
+  console.log(oauth2Client);
+  const accessToken = await new Promise((resolve, reject) => {
+    oauth2Client.getAccessToken((err, token) => {
+      if (err) {
+        console.log(err);
+        reject("Failed to create access token :(");
+      }
+      resolve(token);
+    });
+  });
+  console.log(accessToken);
   const transporter = nodemailer.createTransport({
-    host: config.SMTP_HOST,
-    port: config.SMTP_PORT,
-
+    service: "gmail",
     auth: {
-      user: config.SMTP_EMAIL,
-      pass: config.SMTP_PASSWORD,
+      type: "OAuth2",
+      user: config.GOOGLE_EMAIL,
+      accessToken,
+      clientId: config.GOOGLE_CLIENT,
+      clientSecret: config.GOOGLE_SECRET,
+      refreshToken: config.GOOGLE_REFRESH_TOKEN,
     },
   });
-
-  // send mail with defined transport object
-  const message = {
-    from: `${config.FROM_NAME}<${config.FROM_EMAIL}>`,
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-  };
-
-  const info = await transporter.sendMail(message);
-
-  console.log("Message sent: %s", info.messageId);
+  console.log(transporter);
+  return transporter;
 };
+
+const sendEmail = async (emailOptions) => {
+  let emailTransporter = await createTransporter();
+  await emailTransporter.sendMail(emailOptions);
+};
+
+// send mail with defined transport object
 
 module.exports = sendEmail;
