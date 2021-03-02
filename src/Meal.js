@@ -41,15 +41,17 @@ export default function Meal({ meal }) {
   };
 
   return (
-    <article data-aos="flip-right">
+    <article /*data-aos="flip-right"*/>
       <h1>{meal.title}</h1>
       <img src={imageUrl} alt="recipe" />
-
-      <li>Preparation time: {meal.readyInMinutes} minutes</li>
-      <li>Number of servings: {meal.servings}</li>
+      <ul>
+        {" "}
+        <li>Preparation time: {meal.readyInMinutes} minutes</li>
+        <li>Number of servings: {meal.servings}</li>
+      </ul>
 
       <a href={meal.sourceUrl} target="_blank" rel="noreferrer">
-        Go to Recipe
+        Go to Recipe (New tab)
       </a>
       {isAuth() && <button onClick={() => saveRecipe(meal, imageUrl)}>Save Recipe</button>}
       {!isAuth() && <button onClick={() => loginAndSave(meal, imageUrl)}>Login to save this recipe</button>}

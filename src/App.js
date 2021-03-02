@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { isAuth } from "./helpers/auth";
+
 import MealList from "./MealList";
 import RecipeList from "./RecipeList";
 import AOS from "aos";
@@ -15,11 +16,12 @@ const edamanAppId = process.env.REACT_APP_EDAMAM_APP_ID;
 const edamanApiKey = process.env.REACT_APP_EDAMAM_API_KEY;
 
 function App() {
+  const history = useHistory();
   const [mealData, setMealData] = useState(null);
   const [recipe, setRecipe] = useState(null);
   const [calories, setCalories] = useState(2000);
   const [search, setSearch] = useState("breakfast");
-  const [myClass, setMyClass] = useState("container");
+
   const [error, setError] = useState("");
 
   const count = Math.floor(Math.random() * 90);
@@ -36,8 +38,6 @@ function App() {
       .catch(() => {
         setError("Something went wrong");
       });
-
-    setMyClass("containerAfter");
   }
 
   function getSingleIngredientRecipe() {
@@ -52,47 +52,29 @@ function App() {
       .catch(() => {
         setError("Something went wrong");
       });
-
-    setMyClass("containerAfter");
   }
 
   return (
-    <div className={myClass}>
-      <div className="App" data-aos="zoom-in">
-        {recipe && <RecipeList search={search} recipeData={recipe} />}
-        {mealData && <MealList mealData={mealData} />}
-        {error && error}
-        <section className="controls">
-          <h1>My Meal Plan</h1>
-          <div className="center">
-            <p>Search by calories</p>
-            <input type="Number" placeholder="Calories (e.g. 2000)" onChange={(e) => setCalories(e.target.value)} />
-            <p>Get three recipes totalling calorie amount</p>
-            <button onClick={getMealData}>Get Recipes by calories</button>
-          </div>
+    <main /*data-aos="zoom-in"*/>
+      {recipe && <RecipeList search={search} recipeData={recipe} />}
+      {mealData && <MealList mealData={mealData} />}
+      {error && error}
+      <section>
+        <h1>The Recipe Room</h1>
+        <p>Search by calories</p>
 
-          <section className="btn">or</section>
-          <div className="center">
-            <p>Search by ingredient / keyword</p>
-            <input type="text" placeholder="(e.g. chicken / breakfast)" onChange={(e) => setSearch(e.target.value)} />
-            <br />
-            <button onClick={getSingleIngredientRecipe}>Get Recipes</button>
-          </div>
-
-          <section className="btn">or</section>
-          {isAuth() ? (
-            <Link className="btn" to="/mymeals">
-              {" "}
-              <button>View your saved recipes</button>
-            </Link>
-          ) : (
-            <Link className="btn" to="/login">
-              <button>Login to view your saved recipes</button>
-            </Link>
-          )}
-        </section>
-      </div>
-    </div>
+        <input type="Number" placeholder="Calories (e.g. 2000)" onChange={(e) => setCalories(e.target.value)} />
+        <p>Three recipes totalling calorie amount</p>
+        <button onClick={getMealData}>Get Recipes by calories</button>
+        <h2>or</h2>
+        <p>Search by ingredient / keyword</p>
+        <input type="text" placeholder="(e.g. chicken / dinner)" onChange={(e) => setSearch(e.target.value)} />
+        <br />
+        <button onClick={getSingleIngredientRecipe}>Get Recipes</button>
+        <h2>or</h2>
+        {isAuth() ? <button onClick={() => history.push("/mymeals")}>View your saved recipes</button> : <button onClick={() => history.push("/login")}>Login to view your saved recipes</button>}
+      </section>
+    </main>
   );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+
 import axios from "axios";
 
 const ResetPassword = ({ match }) => {
@@ -13,7 +14,7 @@ const ResetPassword = ({ match }) => {
     if (token) {
       setFormData({ ...formData, token });
     }
-  }, []);
+  }, [match.params.token, formData]);
 
   const handleChange = (text) => (e) => {
     setFormData({ ...formData, [text]: e.target.value });
@@ -40,25 +41,25 @@ const ResetPassword = ({ match }) => {
     }
   };
   return (
-    <div className="container sign-up-mode">
+    <main>
       <ToastContainer />
-      <div className="forms-container">
-        <div className="signin-signup">
-          <form onSubmit={handleSubmit} className="sign-up-form" style={{ marginTop: "65px" }}>
-            <h2 className="title">Reset Password</h2>
-            <div className="input-field">
-              <i className="fas fa-user"></i>
-              <input type="password" placeholder="Password" onChange={handleChange("password1")} value={password1} />
-            </div>
-            <div className="input-field">
-              <i className="fas fa-user"></i>
-              <input type="password" placeholder="Confirm Password" onChange={handleChange("password2")} value={password2} />
-            </div>
-            <input type="submit" className="btn solid" value={textChange} />
-          </form>
-        </div>
-      </div>
-    </div>
+      <section>
+        <h1>Reset Password</h1>
+        <form onSubmit={handleSubmit}>
+          <p>Password</p>
+          <div>
+            <input type="password" placeholder="Enter new password" onChange={handleChange("password1")} value={password1} />
+          </div>
+          <p>Confirm Password</p>
+          <div>
+            <input type="password" placeholder="Re-enter new password" onChange={handleChange("password2")} value={password2} />
+          </div>
+          <div>
+            <button type="submit">{textChange}</button>
+          </div>
+        </form>
+      </section>
+    </main>
   );
 };
 

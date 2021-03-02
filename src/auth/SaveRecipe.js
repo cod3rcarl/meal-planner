@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { isAuth } from "./helpers/auth";
+import { isAuth } from "../helpers/auth";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";

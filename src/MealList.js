@@ -7,27 +7,28 @@ export default function MealList({ mealData }) {
   const history = useHistory();
 
   return (
-    <main>
-      <section className="nutrients" data-aos="fade-left">
+    <>
+      <section>
         <h1>Meal List</h1>
 
         <h4>
           Nutrition <em>(per total serving)</em>
         </h4>
-
-        <li>Calories: {mealData.nutrients.calories.toFixed(0)}</li>
-        <li>Carbohydrates: {mealData.nutrients.carbohydrates.toFixed(0)}</li>
-        <li>Fat: {mealData.nutrients.fat.toFixed(0)}</li>
-        <li>Protein: {mealData.nutrients.protein.toFixed(0)}</li>
+        <ul>
+          {" "}
+          <li>Calories: {mealData.nutrients.calories.toFixed(0)}</li>
+          <li>Carbohydrates: {mealData.nutrients.carbohydrates.toFixed(0)}</li>
+          <li>Fat: {mealData.nutrients.fat.toFixed(0)}</li>
+          <li>Protein: {mealData.nutrients.protein.toFixed(0)}</li>
+        </ul>
       </section>
-
-      <section className="meals">
-        <ToastContainer />
+      <ToastContainer />
+      <div className="mealApp">
         {mealData.meals.map((meal) => {
           return <Meal key={meal.id} meal={meal} />;
         })}
-      </section>
+      </div>
       {isAuth() && <button onClick={() => history.push("/mymeals")}>View My Recipes</button>}
-    </main>
+    </>
   );
 }

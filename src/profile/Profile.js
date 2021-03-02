@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import { isAuth, signout } from "./helpers/auth";
+import { isAuth, signout } from "../helpers/auth";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -78,7 +78,7 @@ const Profile = () => {
 
   useEffect(() => {
     isAuth() ? setProfile(isAuth()) : history.push("/login");
-  }, []);
+  }, [history]);
 
   /*------------------------------SIGN OUT--------------------------------*/
 
@@ -88,65 +88,68 @@ const Profile = () => {
   };
 
   return (
-    <div className="profileContainer">
+    <main>
       <ToastContainer />
       {isAuth() && (
-        <div className="App">
+        <section>
           Welcome back {profile.name}
           <p>{profile.email}</p>
-          <h2>Role: {profile.role}</h2>
-          <div className="button-group">
-            <button className="meal-button" onClick={() => setEmailModalOpen(true)}>
-              Update Email
-            </button>
-            <button className="meal-button" onClick={() => setPasswordModalOpen(true)}>
-              Update Password
-            </button>
-            <button className="meal-button" onClick={() => history.push("/")}>
-              Recipe Search
-            </button>
-            <button className="meal-button" onClick={() => history.push("/mymeals")}>
-              My Recipes
-            </button>
-            <button className="meal-button" onClick={handleSignout}>
-              Sign Out
-            </button>
-          </div>
+          <button className="meal-button" onClick={() => setEmailModalOpen(true)}>
+            Update Email
+          </button>
+          <button className="meal-button" onClick={() => setPasswordModalOpen(true)}>
+            Update Password
+          </button>
+          <button className="meal-button" onClick={() => history.push("/")}>
+            Recipe Search
+          </button>
+          <button className="meal-button" onClick={() => history.push("/mymeals")}>
+            My Recipes
+          </button>
+          <button className="meal-button" onClick={handleSignout}>
+            Sign Out
+          </button>
           {/*EMAIL MODAL */}
-          <Modal isOpen={emailModalIsOpen} onRequestClose={() => setEmailModalOpen(false)} contentLabel="Example Modal">
-            <h2>Update your details</h2>
-            <button onClick={() => setEmailModalOpen(false)}>close</button>
-            <form onSubmit={updateDetails}>
-              <div className="update-input-field">
-                <input type="text" placeholder="Enter Email Address" onChange={(e) => setNewEmail1(e.target.value)} />
-              </div>
-              <div className="update-input-field">
-                <input type="text" onChange={(e) => setNewEmail2(e.target.value)} placeholder={"Confirm Email Address"} />
-              </div>
-              <div className="update-input-field">
-                <input type="text" placeholder="Enter Name" onChange={(e) => setNewName(e.target.value)} />
-              </div>
+          <Modal className="modal-forms" isOpen={emailModalIsOpen} onRequestClose={() => setEmailModalOpen(false)} contentLabel="Email Modal">
+            <div className="button-group">
+              {" "}
+              <p>
+                Update your details
+                <span onClick={() => setEmailModalOpen(false)}>X</span>
+              </p>
+            </div>
 
-              <input type="submit" className="update-btn" value="Update Details" />
+            <form onSubmit={updateDetails}>
+              <input className="modal-input" type="text" placeholder="Enter Email Address" onChange={(e) => setNewEmail1(e.target.value)} />
+              <input className="modal-input" type="text" onChange={(e) => setNewEmail2(e.target.value)} placeholder={"Confirm Email Address"} />
+              <input className="modal-input" type="text" placeholder="Enter Name (Optional)" onChange={(e) => setNewName(e.target.value)} />
+
+              <button className="modal-input" type="submit">
+                Update Details
+              </button>
             </form>
           </Modal>
           {/*PASSWORD MODAL */}
-          <Modal isOpen={passwordModalIsOpen} onRequestClose={() => setPasswordModalOpen(false)} contentLabel="Example Modal">
-            <h2>Update your details</h2>
-            <button onClick={() => setPasswordModalOpen(false)}>close</button>
+          <Modal className="modal-forms" isOpen={passwordModalIsOpen} onRequestClose={() => setPasswordModalOpen(false)} contentLabel="Example Modal">
+            <div className="button-group">
+              {" "}
+              <p>
+                Update your details
+                <span onClick={() => setPasswordModalOpen(false)}>X</span>
+              </p>
+            </div>
             <form onSubmit={handlePasswordUpdate}>
-              <div className="update-input-field">
-                <input type="text" placeholder="Current password" onChange={(e) => setPassword(e.target.value)} />
-              </div>
-              <div className="update-input-field">
-                <input type="text" placeholder="Enter new password" onChange={(e) => setNewPassword(e.target.value)} />
-              </div>
-              <input type="submit" className="update-btn" value="Update Password" />
+              <input className="modal-input" type="text" placeholder="Current password" onChange={(e) => setPassword(e.target.value)} />
+
+              <input className="modal-input" type="text" placeholder="Enter new password" onChange={(e) => setNewPassword(e.target.value)} />
+              <button className="modal-input" type="submit">
+                Update Password
+              </button>
             </form>
           </Modal>
-        </div>
+        </section>
       )}
-    </div>
+    </main>
   );
 };
 

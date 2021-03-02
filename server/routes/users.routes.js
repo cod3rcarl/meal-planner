@@ -10,6 +10,7 @@ const { authorize, protect } = require("../middleware/auth");
 
 router.get("/", protect, authorize("admin"), advancedResults(User), getUsers);
 router.get("/recipes/:id", protect, advancedResults(Recipe), getRecipes);
+
 router.post("/recipes", protect, createRecipe);
 
 router

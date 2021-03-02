@@ -9,8 +9,8 @@ const User = require("../models/auth.model");
 
 exports.getRecipes = asyncHandler(async (req, res, next) => {
   const user = req.params.id;
-
   const query = await Recipe.find();
+
   const recipes = query.filter((recipe) => recipe.user === user);
 
   res.status(200).json({ recipes });

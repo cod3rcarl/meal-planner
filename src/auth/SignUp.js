@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+
 import axios from "axios";
-import { authenticate } from "./helpers/auth";
-import { Link, useHistory } from "react-router-dom";
+import { authenticate } from "../helpers/auth";
+import { useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
@@ -14,7 +15,7 @@ AOS.init({
 
 function SignUp() {
   const history = useHistory();
-  const [signUpFormData, setSignUpFormData] = useState({ name: "", email: "", password1: "", password2: "", textChange: "Sign Up" });
+  const [signUpFormData, setSignUpFormData] = useState({ name: "", email: "", password1: "", password2: "", textChange: "Submit" });
   const { name, email, password1, password2, textChange } = signUpFormData;
   const handleSignUpChange = (text) => (e) => {
     setSignUpFormData({ ...signUpFormData, [text]: e.target.value });
@@ -35,7 +36,7 @@ function SignUp() {
             }, 3000);
           })
           .catch((err) => {
-            setSignUpFormData({ ...signUpFormData, name: "", email: "", password1: "", password2: "", textChange: "Sign Up" });
+            setSignUpFormData({ ...signUpFormData, name: "", email: "", password1: "", password2: "", textChange: "Submit" });
             toast.error(err.response.data.errors);
           });
       } else {
@@ -69,56 +70,51 @@ function SignUp() {
       });
   };
   return (
-    <div className="container">
+    <main>
       <ToastContainer />
-      <div className="App" data-aos="zoom-in">
-        <h1>My Meal Plan</h1>
+      <section /*data-aos="zoom-in"*/>
+        <h1>Register</h1>
         {/* REGISTER */}
 
-        <form className="sign-up-form" onSubmit={handleSignUp}>
-          <h2 className="title">Sign Up</h2>
-
-          <div className="input-field">
-            <i className="fas fa-user"></i>
-            <input type="text" placeholder="Name" autoComplete="off" onChange={handleSignUpChange("name")} value={name} />
+        <form onSubmit={handleSignUp}>
+          <p>Name</p>
+          <div>
+            <input type="text" placeholder="Enter name" autoComplete="off" onChange={handleSignUpChange("name")} value={name} />
           </div>
-          <div className="input-field">
-            <i className="fas fa-envelope"></i>
+          <p>Email</p>
+          <div>
             <input type="email" placeholder="Email" autoComplete="off" onChange={handleSignUpChange("email")} value={email} />
           </div>
-          <div className="input-field">
-            <i className="fas fa-lock"></i>
-            <input type="password" placeholder="Password" autoComplete="off" onChange={handleSignUpChange("password1")} value={password1} />
+          <p>Password</p>
+          <div>
+            <input type="password" placeholder="Enter password" autoComplete="off" onChange={handleSignUpChange("password1")} value={password1} />
           </div>
-          <div className="input-field">
-            <i className="fas fa-lock"></i>
-            <input type="password" placeholder="Confirm Password" autoComplete="off" onChange={handleSignUpChange("password2")} value={password2} />
+          <p>Confirm Password</p>
+          <div>
+            <input type="password" placeholder="Re-enter password" autoComplete="off" onChange={handleSignUpChange("password2")} value={password2} />
           </div>
-          <input type="submit" className="btn" value={textChange} />
+          <div>
+            <button type="submit">{textChange}</button>
+          </div>
           <p>Already got an account?</p>
-          <Link to="/login">
-            <button>Login</button>
-          </Link>
-          <p className="social-text">Or Sign in with Google</p>
-          <div className="social-media">
-            {" "}
-            <GoogleLogin
-              clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-              render={(renderProps) => (
-                <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="social-icon">
-                  <i className="fab fa-google " />
+          <button onClick={() => history.push("/login")}>Login</button>
 
-                  {/* <span className="ml-4">Sign In with Google</span> */}
-                </button>
-              )}
-            ></GoogleLogin>
-          </div>
+          <GoogleLogin
+            clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+            render={(renderProps) => (
+              <button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                <i className="fab fa-google " />
+                Or Sign In with Google
+              </button>
+            )}
+          ></GoogleLogin>
         </form>
-      </div>
-    </div>
+        <button onClick={() => history.push("/")}>Back to home page</button>
+      </section>
+    </main>
   );
 }
 

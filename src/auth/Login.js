@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+
 import axios from "axios";
-import { authenticate } from "./helpers/auth";
-import { Link, useHistory } from "react-router-dom";
+import { authenticate } from "../helpers/auth";
+import { useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
@@ -42,7 +43,7 @@ function Login() {
 
   /*------------------------------EMAIL LOGIN--------------------------------*/
 
-  const [loginFormData, setLoginFormData] = useState({ loginEmail: "", loginPassword1: "", loginTextChange: "Sign In" });
+  const [loginFormData, setLoginFormData] = useState({ loginEmail: "", loginPassword1: "", loginTextChange: "Submit" });
   const { loginEmail, loginPassword1, loginTextChange } = loginFormData;
   const handleLoginChange = (text) => (e) => {
     setLoginFormData({ ...loginFormData, [text]: e.target.value });
@@ -78,48 +79,46 @@ function Login() {
   };
 
   return (
-    <div className="container">
+    <main>
       <ToastContainer />
-      <div className="App" data-aos="zoom-in">
-        <h1>My Meal Plan</h1>
-        <form onSubmit={handleLogin} className="controls">
-          <div className="input-field">
-            <i className="fas fa-user"></i>
-            <input type="email" placeholder="Email" autoComplete="off" onChange={handleLoginChange("loginEmail")} value={loginEmail} />
+      <section /*data-aos="zoom-in"*/>
+        <h1>Login</h1>
+        <form onSubmit={handleLogin}>
+          <p>Email</p>
+          <div>
+            <input type="email" placeholder="Enter email address" autoComplete="off" onChange={handleLoginChange("loginEmail")} value={loginEmail} />
           </div>
-          <div className="input-field">
-            <i className="fas fa-lock"></i>
-            <input type="password" placeholder="Password" autoComplete="off" onChange={handleLoginChange("loginPassword1")} value={loginPassword1} />
+          <p>Password</p>
+          <div>
+            <input style={{ marginBottom: "1rem" }} type="password" placeholder="Enter password" autoComplete="off" onChange={handleLoginChange("loginPassword1")} value={loginPassword1} />
           </div>
-          <input type="submit" className="btn solid" value={loginTextChange} />
-          <p className="social-text">Or Sign In with Google</p>
-          <div className="social-media">
-            {" "}
-            <GoogleLogin
-              clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-              render={(renderProps) => (
-                <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="social-icon">
-                  <i className="fab fa-google " />
-                </button>
-              )}
-            ></GoogleLogin>
+
+          <div>
+            <button type="submit">{loginTextChange}</button>
           </div>
-          <br />
-          <Link to="/users/password/forget">
-            <p>Forgot Password?</p>
-          </Link>
-          <Link to="/register">
-            <button>Register</button>
-          </Link>
+
+          <GoogleLogin
+            clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+            render={(renderProps) => (
+              <button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                <i className="fab fa-google " />
+                Or Sign In with Google <span> </span>
+              </button>
+            )}
+          ></GoogleLogin>
         </form>
-        <Link to="/">
-          <button>Back to home page</button>
-        </Link>
-      </div>
-    </div>
+        <div>
+          {" "}
+          <h3 onClick={() => history.push("/users/password/forget")}>Forgot Password</h3>
+          <h3 onClick={() => history.push("/register")}>Register</h3>
+        </div>
+
+        <button onClick={() => history.push("/")}>Back to home page</button>
+      </section>
+    </main>
   );
 }
 

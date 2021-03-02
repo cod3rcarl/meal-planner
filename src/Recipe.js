@@ -31,12 +31,14 @@ export default function Recipe({ recipe }) {
     <article>
       <h1>{recipe.label}</h1>
       <img src={recipe.image} alt="recipe" />
-
-      <li>Preparation time: {recipe.totalTime === 0 ? "Not Provided" : `${recipe.totalTime} minutes`}</li>
-      <li>Number of servings: {servings}</li>
+      <ul>
+        {" "}
+        <li>Preparation time: {recipe.totalTime === 0 ? "Not Provided" : `${recipe.totalTime} minutes`}</li>
+        <li>Number of servings: {servings}</li>
+      </ul>
 
       <a href={recipe.url} target="_blank" rel="noreferrer">
-        Go to Recipe
+        Go to Recipe (New Tab)
       </a>
       {isAuth() && <button onClick={() => saveRecipe(recipe, recipe.image)}>Save Recipe</button>}
       {!isAuth() && <button onClick={() => loginAndSave(recipe, recipe.image)}>Login to save this recipe</button>}
