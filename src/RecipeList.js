@@ -1,5 +1,6 @@
 import React from "react";
 import Recipe from "./Recipe";
+import DropdownMenu from "./components/Dropdown";
 import { v4 as uuidv4 } from "uuid";
 import { isAuth } from "./helpers/auth";
 import { useHistory } from "react-router-dom";
@@ -11,6 +12,7 @@ export default function RecipeList({ recipeData, search }) {
     <>
       <section data-aos="fade-left">
         <h1>{search.toUpperCase()} RECIPES</h1>
+        <DropdownMenu />
         {isAuth() && <button onClick={() => history.push("/mymeals")}>View My Recipes</button>}
       </section>
       <ToastContainer />

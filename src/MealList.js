@@ -1,5 +1,6 @@
 import React from "react";
 import Meal from "./Meal";
+import DropdownMenu from "./components/Dropdown";
 import { isAuth, signout } from "./helpers/auth";
 import { useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -15,6 +16,7 @@ export default function MealList({ mealData }) {
     <>
       <section>
         <h1>Meal List</h1>
+        <DropdownMenu />
         {isAuth() && (
           <div>
             <button onClick={() => history.push("/mymeals")}>View My Recipes</button>

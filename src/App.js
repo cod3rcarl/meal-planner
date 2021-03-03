@@ -60,8 +60,13 @@ function App() {
       {mealData && <MealList mealData={mealData} />}
       {error && error}
       <section>
-        {recipe || mealData ? <h1>Search Again</h1> : <h1>The Recipe Room</h1>}
-        <DropdownMenu />
+        {recipe || mealData ? (
+          <h1>Search Again</h1>
+        ) : (
+          <>
+            <h1>The Recipe Room</h1> <DropdownMenu />
+          </>
+        )}
 
         <p>Search by calories</p>
 
