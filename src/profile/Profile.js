@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { isAuth, signout } from "../helpers/auth";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import DropdownMenu from "../components/Dropdown";
 import axios from "axios";
 
 Modal.setAppElement("#root");
@@ -92,8 +93,10 @@ const Profile = () => {
       <ToastContainer />
       {isAuth() && (
         <section>
-          Welcome back {profile.name}
+          <h1>{profile.name}</h1>
           <p>{profile.email}</p>
+          <br />
+
           <button className="meal-button" onClick={() => setEmailModalOpen(true)}>
             Update Email
           </button>

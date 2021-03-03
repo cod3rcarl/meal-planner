@@ -30,7 +30,7 @@ main {
   flex-direction: column;
   font-size: 1rem;
   color: var(--primary-text-color);
-
+  margin-top: 1rem;
   padding: 2rem;
   font-family: var(--primary-font);
   background-color: rgba(2, 2, 2, 0.6);
@@ -273,6 +273,9 @@ a:hover {
     padding: 3rem;
     margin: 1rem;
     font-family: var(--primary-font);
+  }
+  main {
+    margin-top: 5rem;
   }
 }
 

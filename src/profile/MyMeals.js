@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect, useState } from "react";
 import { isAuth, signout } from "../helpers/auth";
-
+import DropdownMenu from "../components/Dropdown";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import AOS from "aos";
@@ -89,11 +89,7 @@ function MyMeals() {
   return (
     <main>
       <h1>My Recipes</h1>
-      <section className="button-group" data-aos="zoom-out">
-        <button onClick={() => history.push("/profile")}>Profile</button>
-        <button onClick={signOut}>Sign Out</button>
-        <button onClick={() => history.push("/")}>Home</button>
-      </section>
+      <DropdownMenu />
 
       {state.meals ? (
         <form className="search" onSubmit={handleSearch}>

@@ -1,0 +1,71 @@
+.menu {
+  background: bisque;
+  border-radius: 8px;
+  position: absolute;
+  top: 8rem;
+  right: 2rem;
+  width: 300px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  z-index: 1000;
+}
+
+.menu.active {
+  background: bisque;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li p {
+  text-decoration: none;
+  border: 1px solid black;
+  border-radius: 10px;
+  text-align: center;
+  color: #333333;
+  padding: 15px 20px;
+  display: block;
+  cursor: pointer;
+}
+
+.menuTrigger {
+  background: #ffffff;
+  border-radius: 90px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: none;
+  vertical-align: middle;
+  transition: box-shadow 0.4s ease;
+}
+
+.menuTrigger:hover {
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.menuTrigger span {
+  font-weight: 700;
+  vertical-align: middle;
+  font-size: 14px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+.menu-container div {
+  cursor: pointer;
+}
+
+.current {
+  background-color: gold;
+}

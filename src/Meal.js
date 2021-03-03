@@ -51,7 +51,7 @@ export default function Meal({ meal }) {
       </ul>
 
       <a href={meal.sourceUrl} target="_blank" rel="noreferrer">
-        Go to Recipe (New tab)
+        Go to Recipe (Open in new tab)
       </a>
       {isAuth() && <button onClick={() => saveRecipe(meal, imageUrl)}>Save Recipe</button>}
       {!isAuth() && <button onClick={() => loginAndSave(meal, imageUrl)}>Login to save this recipe</button>}

@@ -38,10 +38,23 @@ export default function Recipe({ recipe }) {
       </ul>
 
       <a href={recipe.url} target="_blank" rel="noreferrer">
-        Go to Recipe (New Tab)
+        Go to Recipe (Open in new tab)
       </a>
-      {isAuth() && <button onClick={() => saveRecipe(recipe, recipe.image)}>Save Recipe</button>}
-      {!isAuth() && <button onClick={() => loginAndSave(recipe, recipe.image)}>Login to save this recipe</button>}
+      {isAuth() && (
+        <button onClick={() => saveRecipe(recipe, recipe.image)}>
+          <strong style={{ fontSize: "1rem" }}>
+            <em> Save Recipe</em>
+          </strong>
+        </button>
+      )}
+      {!isAuth() && (
+        <button onClick={() => loginAndSave(recipe, recipe.image)}>
+          {" "}
+          <strong style={{ fontSize: "1rem" }}>
+            <em> Login to save this recipe</em>
+          </strong>
+        </button>
+      )}
     </article>
   );
 }

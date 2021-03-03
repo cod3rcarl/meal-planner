@@ -1,16 +1,26 @@
 import React from "react";
 import Meal from "./Meal";
-import { isAuth } from "./helpers/auth";
+import { isAuth, signout } from "./helpers/auth";
 import { useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 export default function MealList({ mealData }) {
   const history = useHistory();
 
+  const signOut = () => {
+    signout();
+    history.push("/");
+  };
+
   return (
     <>
       <section>
         <h1>Meal List</h1>
-
+        {isAuth() && (
+          <div>
+            <button onClick={() => history.push("/mymeals")}>View My Recipes</button>
+            <button onClick={signOut}>Sign Out</button>
+          </div>
+        )}
         <h4>
           Nutrition <em>(per total serving)</em>
         </h4>
@@ -28,7 +38,6 @@ export default function MealList({ mealData }) {
           return <Meal key={meal.id} meal={meal} />;
         })}
       </div>
-      {isAuth() && <button onClick={() => history.push("/mymeals")}>View My Recipes</button>}
     </>
   );
 }

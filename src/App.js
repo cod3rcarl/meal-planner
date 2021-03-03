@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { isAuth } from "./helpers/auth";
-
+import DropdownMenu from "./components/Dropdown";
 import MealList from "./MealList";
 import RecipeList from "./RecipeList";
 import AOS from "aos";
@@ -55,12 +55,14 @@ function App() {
   }
 
   return (
-    <main /*data-aos="zoom-in"*/>
+    <main data-aos="zoom-in">
       {recipe && <RecipeList search={search} recipeData={recipe} />}
       {mealData && <MealList mealData={mealData} />}
       {error && error}
       <section>
-        <h1>The Recipe Room</h1>
+        {recipe || mealData ? <h1>Search Again</h1> : <h1>The Recipe Room</h1>}
+        <DropdownMenu />
+
         <p>Search by calories</p>
 
         <input type="Number" placeholder="Calories (e.g. 2000)" onChange={(e) => setCalories(e.target.value)} />
