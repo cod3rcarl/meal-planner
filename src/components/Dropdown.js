@@ -31,7 +31,7 @@ export default function App() {
               {" "}
               <p onClick={() => history.push("/")}>Recipe Search</p>
             </li>
-            <li className={path === "/profile" && "current"}> {isAuth() && <p onClick={() => history.push("/profile")}>Profile</p>}</li>
+            <li className={path === "/profile" && "current"}> {isAuth() ? <p onClick={() => history.push("/profile")}>Profile</p> : <p onClick={() => history.push("/register")}>Sign Up</p>}</li>
           </ul>
         </nav>
       </div>
