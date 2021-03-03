@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { isAuth } from "./helpers/auth";
+import About from "./About";
 import DropdownMenu from "./components/Dropdown";
 import MealList from "./MealList";
 import RecipeList from "./RecipeList";
+import Modal from "react-modal";
+import ReactTooltip from "react-tooltip";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 AOS.init({
@@ -11,6 +15,8 @@ AOS.init({
   duration: 1200,
   once: false,
 });
+Modal.setAppElement("#root");
+
 const apiKey = process.env.REACT_APP_SPOONACULAR_API_KEY;
 const edamanAppId = process.env.REACT_APP_EDAMAM_APP_ID;
 const edamanApiKey = process.env.REACT_APP_EDAMAM_API_KEY;
@@ -21,7 +27,7 @@ function App() {
   const [recipe, setRecipe] = useState(null);
   const [calories, setCalories] = useState(2000);
   const [search, setSearch] = useState("breakfast");
-
+  const [modalIsOpen, setModalOpen] = useState(false);
   const [error, setError] = useState("");
 
   const count = Math.floor(Math.random() * 90);
@@ -47,7 +53,6 @@ function App() {
         window.scrollTo(0, 0);
         setMealData(null);
         setRecipe(data.hits);
-        setSearch("Breakfast");
       })
       .catch(() => {
         setError("Something went wrong");
@@ -64,14 +69,20 @@ function App() {
           <h1>Search Again</h1>
         ) : (
           <>
-            <h1>The Recipe Room</h1> <DropdownMenu />
+            <h1>
+              The Recipe Room{" "}
+              <span data-tip="About the recipe room">
+                <i className="fas fa-question-circle about" onClick={() => setModalOpen(true)}></i>
+              </span>
+            </h1>{" "}
+            <DropdownMenu setModalOpen={setModalOpen} />
           </>
         )}
 
         <p>Search by calories</p>
 
-        <input type="Number" placeholder="Calories (e.g. 2000)" onChange={(e) => setCalories(e.target.value)} />
-        <p>Three recipes totalling calorie amount</p>
+        <input type="Number" min="1" placeholder="Calories (e.g. 2000)" onChange={(e) => setCalories(e.target.value)} />
+        <p>The results will show you three recipes totaling the calorie number input. (per serving)</p>
         <button onClick={getMealData}>Get Recipes by calories</button>
         <h2>or</h2>
         <p>Search by ingredient / keyword</p>
@@ -81,6 +92,18 @@ function App() {
         <h2>or</h2>
         {isAuth() ? <button onClick={() => history.push("/mymeals")}>View your saved recipes</button> : <button onClick={() => history.push("/login")}>Login to view your saved recipes</button>}
       </section>
+      <div>
+        {" "}
+        <Modal className="modalOpen" isOpen={modalIsOpen} onRequestClose={() => setModalOpen(false)} contentLabel="Welcome Modal">
+          <div className="welcomeModal">
+            <div className="close">
+              <h4 onClick={() => setModalOpen(false)}>Close</h4>
+            </div>
+            <About />
+          </div>
+        </Modal>
+      </div>
+      <ReactTooltip />
     </main>
   );
 }

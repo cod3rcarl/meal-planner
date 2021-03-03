@@ -33,6 +33,7 @@ function Login() {
         toast.success(`Hey ${response.data.user.name}, Welcome back!`, { autoClose: 2000 });
         setTimeout(() => {
           localStorage.getItem("recipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
+          localStorage.getItem("savedRecipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
         }, 2000);
       })
       .catch((error) => {
@@ -66,6 +67,7 @@ function Login() {
             setLoginFormData({ ...loginFormData, loginEmail: "", loginPassword1: "", textChange: "Submitted" });
 
             localStorage.getItem("recipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
+            localStorage.getItem("savedRecipe") ? history.push("/login/saverecipe") : history.push("/mymeals");
           }, 3000);
         })
         .catch((err) => {

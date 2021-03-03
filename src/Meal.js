@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { setLocalStorage, isAuth } from "./helpers/auth";
 import axios from "axios";
 
@@ -42,6 +42,7 @@ export default function Meal({ meal }) {
 
   return (
     <article /*data-aos="flip-right"*/>
+      <ToastContainer />
       <h1>{meal.title}</h1>
       <img src={imageUrl} alt="recipe" />
       <ul>

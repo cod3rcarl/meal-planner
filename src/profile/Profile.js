@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
+
 import { isAuth, signout } from "../helpers/auth";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-
+import Modal from "react-modal";
 Modal.setAppElement("#root");
 
 const Profile = () => {

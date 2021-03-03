@@ -27,6 +27,8 @@ body {
 
 main {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   font-size: 1rem;
   color: var(--primary-text-color);
@@ -100,6 +102,9 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: var(--primary-text-color);
+
+  font-family: var(--primary-font);
 }
 
 i {
@@ -109,6 +114,10 @@ i {
 div p {
   margin-bottom: 0;
   text-align: left;
+}
+
+section p {
+  text-align: center;
 }
 
 div input {
@@ -180,7 +189,7 @@ article {
   box-shadow: 0 4px 8px 2px rgba(77, 77, 77, 0.15);
 }
 
-a {
+/* a {
   text-decoration: none;
   padding: 0.7rem 1.2rem;
   border-radius: 10px;
@@ -195,7 +204,7 @@ a:hover {
   background-color: var(--primary-color);
   color: var(--primary-background);
   cursor: pointer;
-}
+} */
 
 .modal-forms {
   border: none;
@@ -258,6 +267,40 @@ a:hover {
   color: var(--primary-text-color);
 }
 
+.welcomeModal {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+
+  border: none;
+  background-color: rgba(2, 2, 2, 0.8);
+}
+.welcomeModal div {
+  color: var(--primary-text-color);
+  font-family: var(--primary-font);
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.modalOpen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.about {
+  cursor: pointer;
+}
+.close {
+  cursor: pointer;
+}
 @media only screen and (min-width: 380px) {
   button {
     font-size: 0.8rem;

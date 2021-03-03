@@ -4,7 +4,7 @@ import { isAuth, signout } from "../helpers/auth";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import "./dropdown.css";
 
-export default function App() {
+export default function DropDown({ setModalOpen }) {
   const path = window.location.pathname;
   const history = useHistory();
   const dropdownRef = useRef(null);
@@ -25,13 +25,18 @@ export default function App() {
 
         <nav ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
           <ul>
-            <li className={path === "/login" && "current"}>{isAuth() ? <p onClick={signOut}>Signout</p> : <p onClick={() => history.push("/login")}>Login</p>}</li>
-            <li className={path === "/mymeals" && "current"}>{isAuth() && <p onClick={() => history.push("/mymeals")}>View My Recipes</p>}</li>
-            <li className={path === "/" && "current"}>
+            <li> {path === "/" && <p onClick={() => setModalOpen(true)}>About The Recipe Room</p>}</li>
+            <li className={path === "/login" ? "current" : null}>{isAuth() ? <p onClick={signOut}>Signout</p> : <p onClick={() => history.push("/login")}>Login</p>}</li>
+            <li className={path === "/mymeals" ? "current" : null}>{isAuth() && <p onClick={() => history.push("/mymeals")}>View My Recipes</p>}</li>
+            <li className={path === "/" ? "current" : null}>
               {" "}
               <p onClick={() => history.push("/")}>Recipe Search</p>
             </li>
-            <li className={path === "/profile" && "current"}> {isAuth() ? <p onClick={() => history.push("/profile")}>Profile</p> : <p onClick={() => history.push("/register")}>Sign Up</p>}</li>
+            <li className={path === "/profile" ? "current" : null}> {isAuth() ? <p onClick={() => history.push("/profile")}>Profile</p> : <p onClick={() => history.push("/register")}>Sign Up</p>}</li>
+            <li className={path === "/privacy" ? "current" : null}>
+              {" "}
+              <p onClick={() => history.push("/privacy")}>Privacy</p>
+            </li>
           </ul>
         </nav>
       </div>

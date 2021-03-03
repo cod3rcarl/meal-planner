@@ -9,6 +9,7 @@ import ResetPassword from "./auth/ResetPassword";
 import Profile from "./profile/Profile";
 import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
+import Privacy from "./privacy";
 import MyMeals from "./profile/MyMeals";
 import { SaveRecipe } from "./auth/SaveRecipe";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +25,7 @@ ReactDOM.render(
       <Route path="/users/password/forget" exact component={ForgotPassword} />
       <Route path="/users/password/reset/:token" exact component={ResetPassword} />
       <Route path="/register" exact component={SignUp} />
+      <Route path="/privacy" exact component={Privacy} />
       <Route path="/" exact component={App} />
     </Switch>
   </BrowserRouter>,

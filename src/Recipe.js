@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { setLocalStorage, isAuth } from "./helpers/auth";
 import axios from "axios";
 
@@ -22,13 +22,14 @@ export default function Recipe({ recipe }) {
   };
 
   const loginAndSave = (recipe, image) => {
-    setLocalStorage("recipe", recipe);
+    setLocalStorage("savedRecipe", recipe);
     setLocalStorage("image", image);
     history.push("/login");
   };
 
   return (
     <article>
+      <ToastContainer />
       <h1>{recipe.label}</h1>
       <img src={recipe.image} alt="recipe" />
       <ul>
