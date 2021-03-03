@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import { isAuth, signout } from "../helpers/auth";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import DropdownMenu from "../components/Dropdown";
 import axios from "axios";
 
 Modal.setAppElement("#root");

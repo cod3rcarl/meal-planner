@@ -1,8 +1,7 @@
 import React, { useReducer, useEffect, useState } from "react";
-import { isAuth, signout } from "../helpers/auth";
+import { isAuth } from "../helpers/auth";
 import DropdownMenu from "../components/Dropdown";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 AOS.init({
@@ -46,7 +45,6 @@ const reducer = (state, action) => {
   }
 };
 function MyMeals() {
-  const history = useHistory();
   const user = isAuth();
   const userEndpoint = process.env.REACT_APP_USER_URL;
   const [search, setSearch] = useState("");
@@ -79,11 +77,6 @@ function MyMeals() {
         window.location.reload();
       })
       .catch((err) => console.log("error"));
-  };
-
-  const signOut = () => {
-    signout();
-    history.push("/");
   };
 
   return (

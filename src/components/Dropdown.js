@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useHistory, NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { isAuth, signout } from "../helpers/auth";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import "./dropdown.css";
