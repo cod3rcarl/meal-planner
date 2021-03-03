@@ -68,4 +68,12 @@
 
 .current {
   background-color: gold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav ul {
+  width: 100%;
 }

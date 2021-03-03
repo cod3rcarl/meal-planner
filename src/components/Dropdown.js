@@ -26,16 +26,45 @@ export default function DropDown({ setModalOpen }) {
         <nav ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
           <ul>
             <li> {path === "/" && <p onClick={() => setModalOpen(true)}>About The Recipe Room</p>}</li>
-            <li className={path === "/login" ? "current" : null}>{isAuth() ? <p onClick={signOut}>Signout</p> : <p onClick={() => history.push("/login")}>Login</p>}</li>
-            <li className={path === "/mymeals" ? "current" : null}>{isAuth() && <p onClick={() => history.push("/mymeals")}>View My Recipes</p>}</li>
-            <li className={path === "/" ? "current" : null}>
-              {" "}
-              <p onClick={() => history.push("/")}>Recipe Search</p>
+            <li>
+              {isAuth() ? (
+                <p onClick={signOut}>Signout</p>
+              ) : (
+                <p className={path === "/login" ? "current" : null} onClick={() => history.push("/login")}>
+                  Login
+                </p>
+              )}
             </li>
-            <li className={path === "/profile" ? "current" : null}> {isAuth() ? <p onClick={() => history.push("/profile")}>Profile</p> : <p onClick={() => history.push("/register")}>Sign Up</p>}</li>
-            <li className={path === "/privacy" ? "current" : null}>
+            <li>
+              {isAuth() && (
+                <p className={path === "/mymeals" ? "current" : null} onClick={() => history.push("/mymeals")}>
+                  View My Recipes
+                </p>
+              )}
+            </li>
+            <li>
               {" "}
-              <p onClick={() => history.push("/privacy")}>Privacy</p>
+              <p className={path === "/" ? "current" : null} onClick={() => history.push("/")}>
+                Recipe Search
+              </p>
+            </li>
+            <li>
+              {" "}
+              {isAuth() ? (
+                <p className={path === "/profile" ? "current" : null} onClick={() => history.push("/profile")}>
+                  Profile
+                </p>
+              ) : (
+                <p className={path === "/register" ? "current" : null} onClick={() => history.push("/register")}>
+                  Sign Up
+                </p>
+              )}
+            </li>
+            <li>
+              {" "}
+              <p className={path === "/privacy" ? "current" : null} onClick={() => history.push("/privacy")}>
+                Privacy
+              </p>
             </li>
           </ul>
         </nav>
