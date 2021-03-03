@@ -1,5 +1,7 @@
 ### Meal-Planning-App
 
+# The Recipe Room
+
 This is a meal planning app that uses the API from spoonacular.com
 
 ![meal-plan1](/public/recipe-search-page.png "Home Page")
