@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
 import { setLocalStorage, isAuth } from "./helpers/auth";
 import axios from "axios";
 
@@ -8,17 +7,17 @@ export default function Recipe({ recipe }) {
   const recipesUrl = process.env.REACT_APP_USER_URL;
   const history = useHistory();
   const servings = recipe.yield;
+  const [saveText, setSaveText] = useState("Save Recipe");
   const saveRecipe = (recipe, image) => {
     const { label, totalTime, servings, url, id } = recipe;
-
     const user = isAuth();
 
     axios
       .post(`${recipesUrl}/recipes`, { user, title: label, readyInMinutes: totalTime, servings, sourceUrl: url, id, image })
       .then((res) => {
-        toast.success(`${res.data.recipe.title}, successfully added!`, { autoClose: 3000 });
+        setSaveText("Recipe Successfully Added");
       })
-      .catch((err) => toast.error(`You have already added this recipe`));
+      .catch((err) => setSaveText(`You have already added this recipe`));
   };
 
   const loginAndSave = (recipe, image) => {
@@ -29,7 +28,6 @@ export default function Recipe({ recipe }) {
 
   return (
     <article>
-      <ToastContainer />
       <h1>{recipe.label}</h1>
       <img src={recipe.image} alt="recipe" />
       <ul>
@@ -44,7 +42,7 @@ export default function Recipe({ recipe }) {
       {isAuth() && (
         <button onClick={() => saveRecipe(recipe, recipe.image)}>
           <strong style={{ fontSize: "1rem" }}>
-            <em> Save Recipe</em>
+            <em>{saveText}</em>
           </strong>
         </button>
       )}
